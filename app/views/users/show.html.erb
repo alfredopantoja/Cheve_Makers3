@@ -8,4 +8,12 @@
 			</h1>
 		</section>
 	</aside>	
+	<div class="span8">
+		<% unless @user.brewery.nil? %>					
+			<h3><%= @brewery.name %></h3>
+			<p><%= @brewery.site_url %></p>
+			<p><%= @brewery.twitter_url %></p>
+			<p><%= @brewery.description %></p>
+		<% end %>
+	</div>							
 </div>	

@@ -11,12 +11,16 @@ describe User do
 
 	it { should respond_to(:name) }
 	it { should respond_to(:email) }	
+	it { should respond_to(:description) }
+	it { should respond_to(:site_url) }
+	it { should respond_to(:twitter_url) }	
 	it { should respond_to(:password_digest) }
 	it { should respond_to(:password) }
 	it { should respond_to(:password_confirmation) }
 	it { should respond_to(:remember_token) }
 	it { should respond_to(:admin) }
 	it { should respond_to(:authenticate) }
+	it { should respond_to(:brewery) }
 
 	it { should be_valid }
 	it { should_not be_admin }
@@ -116,4 +120,18 @@ describe User do
 		before { @user.save }
 		its(:remember_token) { should_not be_blank }
 	end	
+
+	describe "brewery associations" do
+
+		before { @user.save }
+		let!(:brewery) do
+			FactoryGirl.create(:brewery, user: @user)
+		end
+
+		it "should destroy associated brewery" do
+			brewery = @user.brewery.dup
+			@user.destroy
+			Brewery.find_by_id(brewery.id).should be_nil
+		end		
+	end					
 end

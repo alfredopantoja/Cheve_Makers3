@@ -15,5 +15,12 @@ namespace :db do
                    password: password,
                    password_confirmation: password)
     end
+		users = User.all(limit: 10)
+		50.times do
+			name = Faker::Name.name
+			description = Faker::Lorem.paragraphs(3)
+			users.each { |user| user.create_brewery!(name: name, 
+																							 description: description)}			
+		end	
   end
 end

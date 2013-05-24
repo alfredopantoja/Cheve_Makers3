@@ -8,5 +8,13 @@ FactoryGirl.define do
 		factory :admin do
 			admin true
 		end	
-	end
+	end	
+
+	factory :brewery do
+		name        "Senor Beer"
+		description "Delicious fucking beer."
+		site_url    "www.senorbeer.com"
+		twitter_url "www.twitter.com/senorbeer"
+		user
+	end			
 end	
