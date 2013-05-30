@@ -52,19 +52,31 @@ describe "User pages" do
 
 	describe "profile page" do
 		let(:user)     { FactoryGirl.create(:user) }
-		let!(:brewery) { FactoryGirl.create(:brewery, user: user, name: "Senor Beer",
-																			  description: "Good beer yo!") }	
+		let!(:beer1) do
+			FactoryGirl.create(:beer, user: user, name: "Guiness", beer_type: "stout",
+												        description: "Irish goodness")
+		end
+		let!(:beer2) do	
+			FactoryGirl.create(:beer, user: user, name: "Stella", beer_type: "pilsner",
+												        description: "Fancy glass goodness")
+		end
 
 		before { visit user_path(user) }
 
 		it { should have_selector('h1',    text: user.name) }
 		it { should have_selector('title', text: user.name) }		
-		
-		describe "brewery" do
-			it { should have_content(brewery.name) }
-			it { should have_content(brewery.description) }
-		end			
+
+		describe "beers" do
+			it { should have_content(beer1.name) }				
+			it { should have_content(beer1.beer_type) }				
+			it { should have_content(beer1.description) }				
+			it { should have_content(beer2.name) }				
+			it { should have_content(beer2.beer_type) }				
+			it { should have_content(beer2.description) }				
+			it { should have_content(user.beers.count) }
+		end	
 	end	
+	
 	describe "signup page" do
 		before { visit signup_path }
 		

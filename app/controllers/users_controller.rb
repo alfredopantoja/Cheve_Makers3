@@ -5,7 +5,7 @@ class UsersController < ApplicationController
 	
 	def show
 		@user = User.find(params[:id])
-		@brewery = @user.brewery
+		@beers = @user.beers.paginate(page: params[:page])
 	end
 
   def new

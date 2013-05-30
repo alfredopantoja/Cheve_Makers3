@@ -84,18 +84,28 @@ describe "Authentication" do
 					it { should have_selector('title', text: 'Sign in') }
 				end				
 			end
-			
-			describe "in the Breweries controller" do
+
+			describe "in the Beers controller" do
 				
-				describe "submitting to the create action" do
-					before { post breweries_path }
-					specify { response.should redirect_to(signin_path) }
+				describe "visiting the new action" do
+					before { get new_user_beer_path(user) }
+					specify { expect(response).to redirect_to(signin_path) }
 				end
 
-				describe "submitting to the destroy action" do
-					before { delete brewery_path(FactoryGirl.create(:brewery)) }
-					specify { response.should redirect_to(signin_path) }
+				describe "submitting to the create action" do
+					before { post user_beers_path(user) }
+					specify { expect(response).to redirect_to(signin_path) }
 				end
+
+				describe "visiting the edit action" do
+					before { get edit_user_beer_path(user, FactoryGirl.create(:beer)) }
+					specify { expect(response).to redirect_to(signin_path) }
+				end					
+
+				describe "submitting to the destroy action" do
+					before { delete user_beer_path(user, FactoryGirl.create(:beer)) }
+					specify { expect(response).to redirect_to(signin_path) }
+				end	
 			end	
 		end
 

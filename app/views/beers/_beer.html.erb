@@ -1,0 +1,12 @@
+<li>
+	<span class="name"><%= beer.name %></span>
+	<span class="beer-type"> type: <%= beer.beer_type %></span>
+	<p class="description"><%= beer.description %></p>
+	<% if current_user?(beer.user) %>
+		<%= link_to "edit",   edit_user_beer_path(current_user, beer) %> |			
+		<%= link_to "delete", user_beer_path(current_user, beer),
+				 									method: :delete,
+													data: { confirm: "You sure?" },
+													title: beer.name %>
+	<% end %>												
+</li>	

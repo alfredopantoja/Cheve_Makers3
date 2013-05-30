@@ -9,11 +9,12 @@
 		</section>
 	</aside>	
 	<div class="span8">
-		<% unless @user.brewery.nil? %>					
-			<h3><%= @brewery.name %></h3>
-			<p><%= @brewery.site_url %></p>
-			<p><%= @brewery.twitter_url %></p>
-			<p><%= @brewery.description %></p>
+		<% if @user.beers.any? %>
+			<h3>Beers (<%= @user.beers.count %>)</h3>
+			<ol class="beers">
+				<%= render @beers %>
+			</ol>
+			<%= will_paginate @beers %>
 		<% end %>
-	</div>							
+	</div>
 </div>	

@@ -20,7 +20,7 @@ describe User do
 	it { should respond_to(:remember_token) }
 	it { should respond_to(:admin) }
 	it { should respond_to(:authenticate) }
-	it { should respond_to(:brewery) }
+	it { should respond_to(:beers) }
 
 	it { should be_valid }
 	it { should_not be_admin }
@@ -121,17 +121,27 @@ describe User do
 		its(:remember_token) { should_not be_blank }
 	end	
 
-	describe "brewery associations" do
-
+	describe "beer associations" do
+		
 		before { @user.save }
-		let!(:brewery) do
-			FactoryGirl.create(:brewery, user: @user)
+		let!(:older_beer) do
+			FactoryGirl.create(:beer, user: @user, created_at: 1.day.ago)
+		end
+		let!(:newer_beer) do
+			FactoryGirl.create(:beer, user: @user, created_at: 1.hour.ago)
 		end
 
-		it "should destroy associated brewery" do
-			brewery = @user.brewery.dup
+		it "should have the right beers in the right order" do
+			@user.beers.should == [newer_beer, older_beer]
+		end
+
+		it "should destroy associated beers" do
+			beers = @user.beers.dup
 			@user.destroy
-			Brewery.find_by_id(brewery.id).should be_nil
-		end		
-	end					
+			beers.should_not be_empty
+			beers.each do |beer|
+				Beer.find_by_id(beer.id).should be_nil
+			end
+		end	
+	end	
 end

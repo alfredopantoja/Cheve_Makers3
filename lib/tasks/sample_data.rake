@@ -18,9 +18,10 @@ namespace :db do
 		users = User.all(limit: 10)
 		50.times do
 			name = Faker::Name.name
-			description = Faker::Lorem.paragraphs(3)
-			users.each { |user| user.create_brewery!(name: name, 
-																							 description: description)}			
+			beer_type = Faker::Lorem.sentence
+			description = Faker::Lorem.paragraphs			
+			users.each { |user| user.beers.create!(name: name, beer_type: beer_type,
+																						 description: description) }
 		end	
   end
 end

@@ -1,21 +1,19 @@
 require 'spec_helper'
 
-describe Brewery do
-
+describe Beer do
+	
 	let(:user) { FactoryGirl.create(:user) }
 	before do
-		@brewery = user.build_brewery(name: "Senor Beer", 
-													 description: "A great fucking brewery",
-													 site_url: "www.senorbeer.com", 
-													 twitter_url: "twitter.com/senorbeer")
+		@beer = user.beers.build(name: "Guiness", 
+										         beer_type: "stout",
+										         description: "Creamy Irish goodness.")
 	end
 
-	subject { @brewery }
+	subject { @beer }
 
 	it { should respond_to(:name) }
+	it { should respond_to(:beer_type) }
 	it { should respond_to(:description) }
-	it { should respond_to(:site_url) }
-	it { should respond_to(:twitter_url) }
 	it { should respond_to(:user_id) }	
 	it { should respond_to(:user) }
 	its(:user) { should == user }
@@ -23,25 +21,30 @@ describe Brewery do
 	it { should be_valid }
 
 	describe "when user_id is not present" do
-		before { @brewery.user_id = nil }
+		before { @beer.user_id = nil }
 		it { should_not be_valid }
-	end	
-
-	describe "accessible attributes" do
-		it "should not allow access to user_id" do
-			expect do
-				Brewery.new(user_id: user.id)
-			end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
-		end
 	end		
 
+	describe "accessible attributes" do
+		it "should not allow access to user id" do
+			expect do
+				Beer.new(user_id: user.id)
+			end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
+		end
+	end	
+
 	describe "with blank name" do
-		before { @brewery.name = " " }
+		before { @beer.name = " " }
 		it { should_not be_valid }
-	end
+	end		
+
+	describe "with blank beer type" do
+		before { @beer.beer_type = " " }
+		it { should_not be_valid }
+	end		
 
 	describe "with blank description" do
-		before { @brewery.description = " " }
+		before { @beer.description = " " }
 		it { should_not be_valid }
 	end		
 end

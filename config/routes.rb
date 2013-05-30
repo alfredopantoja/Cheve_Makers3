@@ -1,7 +1,9 @@
 CheveMakers3::Application.routes.draw do
-	resources :users			
+	resources :users do
+		resources :beers
+	end
+
 	resources :sessions, only: [:new, :create, :destroy]
-	resources :breweries
 
 	root to: 'static_pages#home'
 
